@@ -18,6 +18,7 @@ In control panel of NFS Server edit export config file - add entry eg. `c:\proje
 
 ## Docker
 
-When changed `Dockerfile`, run following command:
-
-```docker-compose build --no-cache```
+```
+yarn install
+docker-compose up
+```

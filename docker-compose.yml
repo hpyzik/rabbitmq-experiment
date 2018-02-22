@@ -9,8 +9,9 @@ services:
       - "15672:15672"
 
   app:
-    build: .
+    image: node:8
     working_dir: /home/node/app
+    command: yarn dev
     environment:
       - NODE_ENV=production
     volumes:

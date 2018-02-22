@@ -1,5 +1,12 @@
 {
   "dependencies": {
     "amqplib": "0.5.2"
+  },
+  "scripts": {
+    "run": "echo \"Run\"",
+    "dev": "nodemon scripts/keep-me-alive.js"
+  },
+  "devDependencies": {
+    "nodemon": "1.15.1"
   }
 }

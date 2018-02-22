@@ -1,6 +1,6 @@
 const amqp = require('amqplib/callback_api');
 
-amqp.connect('amqp://localhost', (error, connection) => {
+amqp.connect('amqp://rabbitmq', (error, connection) => {
     connection.createChannel((error, channel) => {
         const queueName = 'hello';
 

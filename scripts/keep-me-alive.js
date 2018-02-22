@@ -1,2 +1,1 @@
-
-console.log('I\'m working');
+setInterval(() => {}, 1000 * 30);

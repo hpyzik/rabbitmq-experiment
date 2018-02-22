@@ -4,9 +4,6 @@
   },
   "scripts": {
     "run": "echo \"Run\"",
-    "dev": "nodemon scripts/keep-me-alive.js"
-  },
-  "devDependencies": {
-    "nodemon": "1.15.1"
+    "dev": "node scripts/keep-me-alive.js"
   }
 }

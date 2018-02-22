@@ -13,12 +13,15 @@
 The Web UI is located at: `http://rabbitmq-experiment.local:15672/`
 
 ### Syncing folder on Windows
-In control panel of NFS Server edit export config file - add entry eg. `c:\projects\rabbitmq-experiment -name:rabbitmq-experiment`.
+In control panel of NFS Server edit export config file - add entry eg.:
+
+```c:\projects\rabbitmq-experiment -name:rabbitmq-experiment```
 
 
 ## Docker
 
 ```
-yarn install
 docker-compose up
+scripts/docker-ssh.sh app
+yarn install
 ```

@@ -2,19 +2,6 @@ version: "3"
 services:
   rabbit:
     image: rabbitmq:3-management
-#    args:
-#      hostname: "my-rabbit"
     ports:
       - "5672:5672"
       - "15672:15672"
-
-  app:
-    image: node:8
-    working_dir: /home/node/app
-    command: yarn dev
-    environment:
-      - NODE_ENV=production
-    volumes:
-      - ./:/home/node/app
-    ports:
-      - "3000:3000"

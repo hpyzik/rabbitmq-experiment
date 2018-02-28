@@ -1,10 +1,11 @@
 const amqp = require('amqplib/callback_api');
 
-amqp.connect('amqp://rabbitmq', (error, connection) => {
-    connection.createChannel((error, channel) => {
-        const queueName = 'hello';
+amqp.connect('amqp://localhost', (error, connection) => {
+    // connection.createChannel((error, channel) => {
+    connection.createConfirmChannel((error, channel) => {
+        const queueName = 'hello-confirmation';
 
-        channel.assertQueue(queueName, {durable: false});
+        channel.assertQueue(queueName, { durable: false });
 
         const messageLimit = 5;
         let messageNo = 0;
@@ -12,29 +13,30 @@ amqp.connect('amqp://rabbitmq', (error, connection) => {
         do {
             messageNo = messageNo + 1;
 
-            channel.sendToQueue(queueName, new Buffer(`Message ${messageNo}`));
-
-            console.log(messageNo);
-
-        } while(messageNo !== messageLimit);
+            channel.sendToQueue(
+                queueName,
+                new Buffer(`Message ${messageNo}`),
+                {},
+                ((_messageNo) => (err) => {
+                    if (err !== null) {
+                        console.warn('Message %d not confirmed', _messageNo);
+                        console.warn(err);
+                    } else {
+                        console.log('Message %d confirmed', _messageNo);
+                    }
+                })(messageNo),
+            );
+        }
+        while (messageNo !== messageLimit);
 
         console.log(' [x] Sent %d messages', messageLimit);
 
-        setTimeout(function() { connection.close(); process.exit(0) }, 1000 * 10);
+        channel.waitForConfirms(function (err) {
+            console.log('All messages confirmed');
+            connection.close();
+            process.exit(0);
+        })
+
+        // setTimeout(function() { connection.close(); process.exit(0) }, 1000 * 10);
     });
 });
-
-// var amqp = require('amqplib/callback_api');
-
-// amqp.connect('amqp://rabbitmq', function(err, conn) {
-//     conn.createChannel(function(err, ch) {
-//         var q = 'hello';
-//         var msg = 'Hello World!';
-//
-//         ch.assertQueue(q, {durable: false});
-//         // Note: on Node 6 Buffer.from(msg) should be used
-//         ch.sendToQueue(q, new Buffer(msg));
-//         console.log(" [x] Sent %s", msg);
-//     });
-//     setTimeout(function() { conn.close(); process.exit(0) }, 500);
-// });
